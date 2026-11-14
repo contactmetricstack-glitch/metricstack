@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amazon FBA & eBay seller fee calculator — MetricStack</title>
+  <meta name="description" content="Estimate US Amazon FBA referral and fulfillment fees or eBay final value fees, then profit after cost of goods. Fees checked 14 November 2026.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#0f1420">
+  <meta property="og:title" content="Amazon FBA & eBay seller fee calculator — MetricStack">
+  <meta property="og:description" content="Estimate US Amazon FBA referral and fulfillment fees or eBay final value fees, then profit after cost of goods. Fees checked 14 November 2026.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://contactmetricstack-glitch.github.io/metricstack/tools/amazon-ebay-fees.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://contactmetricstack-glitch.github.io/metricstack/tools/amazon-ebay-fees.html">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.svg">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What is eBay’s final value fee in the United States?","acceptedAnswer":{"@type":"Answer","text":"For most US categories, eBay charges 13.6% of the total amount of the sale up to $7,500 per item, then 2.35% on the portion above $7,500, plus a per-order fee of $0.30 on orders of $10 or less or $0.40 on orders above $10. The total sale includes item price, buyer-paid shipping, handling and sales tax. Some categories use a different percentage."}},
+{"@type":"Question","name":"How are Amazon FBA fees estimated here?","acceptedAnswer":{"@type":"Answer","text":"The calculator adds a category referral fee (commonly 15% with a $0.30 minimum, though clothing and other categories differ) to a size-and-weight fulfillment lookup for US standard-size items, plus the 3.5% fuel and logistics surcharge that has applied since 17 April 2026. Peak rates are used if you leave the peak box ticked. Always confirm the live fee in Seller Central."}}
+]}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#5aa2ff" opacity=".18"/><rect x="6" y="17" width="5" height="9" rx="1" fill="#5aa2ff"/><rect x="13.5" y="11" width="5" height="15" rx="1" fill="#7eb6ff"/><rect x="21" y="6" width="5" height="20" rx="1" fill="#5aa2ff"/></svg>
+      <span><span class="brand-text">MetricStack</span><span class="brand-sub">by AHM Global</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">☰</button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html#tools" aria-current="page">Tools</a>
+      <a href="../about.html">About</a>
+      <a href="../privacy.html">Privacy</a>
+    </nav>
+  </div>
+  <div class="slot slim slot-header">Reserved partner slot — no live ads or affiliate links yet.</div>
+</header>
+<main id="main">
+
+<section class="tool-page">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html">Home</a> / Tools / Amazon FBA &amp; eBay</p>
+    <h1>Amazon FBA / eBay seller fee &amp; profit calculator</h1>
+    <p class="lede">Estimate US referral and Fulfillment by Amazon charges, or eBay final value fees, then profit after cost of goods. Fee schedules checked 14 November 2026. Confirm the live rate in Seller Central or Seller Hub before you list.</p>
+    <div class="tool-layout">
+      <div class="card calc-panel">
+        <form id="mkt-form">
+          <div class="tabs" id="mkt-tabs">
+            <button type="button" class="tab" data-tab="amazon" aria-selected="true">Amazon FBA</button>
+            <button type="button" class="tab" data-tab="ebay">eBay</button>
+          </div>
+
+          <div id="amazon-fields">
+            <div class="row-2">
+              <label class="field"><span>Item price (USD)</span><input name="amzPrice" type="number" min="0" step="0.01" value="24.99"></label>
+              <label class="field"><span>Shipping charged to the buyer</span><input name="amzShipCharged" type="number" min="0" step="0.01" value="0"></label>
+            </div>
+            <label class="field"><span>Referral category</span>
+              <select name="referralCat">
+                <option value="most" selected>Most categories — 15%, $0.30 min.</option>
+                <option value="clothing">Clothing &amp; Accessories — 17%, $0.30 min.</option>
+                <option value="beauty-low">Beauty / grocery-style 8% (confirm)</option>
+                <option value="electronics">Computers / electronics often 8% (confirm)</option>
+                <option value="automotive">Automotive / industrial often 12% (confirm)</option>
+                <option value="custom">Custom referral %</option>
+              </select>
+            </label>
+            <div class="row-2">
+              <label class="field"><span>Referral %</span><input name="referralRate" type="number" min="0" step="0.01" value="15"></label>
+              <label class="field"><span>Minimum referral fee</span><input name="referralMin" type="number" min="0" step="0.01" value="0.30"></label>
+            </div>
+            <div class="row-2">
+              <label class="field"><span>Size tier</span>
+                <select name="sizeTier">
+                  <option value="small_standard">Small standard (up to 16 oz)</option>
+                  <option value="large_standard" selected>Large standard</option>
+                </select>
+              </label>
+              <label class="field"><span>Shipping weight (ounces)</span><input name="weightOz" type="number" min="0" step="0.1" value="12"></label>
+            </div>
+            <label class="check"><input name="peak" type="checkbox" checked> Use peak fulfillment rates (15 Oct 2026 – 14 Jan 2027)</label>
+            <label class="field"><span>Custom FBA fee (optional, skips the lookup)</span><input name="customFba" type="number" min="0" step="0.01" placeholder="—"></label>
+            <div class="row-2">
+              <label class="field"><span>Cost of goods</span><input name="amzCogs" type="number" min="0" step="0.01" value="8"></label>
+              <label class="field"><span>Monthly storage (allocated)</span><input name="storage" type="number" min="0" step="0.01" value="0"></label>
+              <label class="field"><span>Inbound / placement</span><input name="inbound" type="number" min="0" step="0.01" value="0"></label>
+              <label class="field"><span>Ads cost on this unit</span><input name="amzAds" type="number" min="0" step="0.01" value="0"></label>
+            </div>
+            <label class="field"><span>Media closing fee if it applies</span><input name="closingFee" type="number" min="0" step="0.01" value="0"></label>
+          </div>
+
+          <div id="ebay-fields" hidden>
+            <div class="row-2">
+              <label class="field"><span>Item price (USD)</span><input name="ebayPrice" type="number" min="0" step="0.01" value="50"></label>
+              <label class="field"><span>Shipping charged</span><input name="ebayShipCharged" type="number" min="0" step="0.01" value="10"></label>
+              <label class="field"><span>Sales tax on the order</span><input name="ebayTax" type="number" min="0" step="0.01" value="0"></label>
+              <label class="field"><span>Your shipping cost</span><input name="ebayShipCost" type="number" min="0" step="0.01" value="8"></label>
+            </div>
+            <div class="row-2">
+              <label class="field"><span>Final value % up to the threshold</span><input name="ebayRate" type="number" min="0" step="0.01" value="13.6"></label>
+              <label class="field"><span>Rate above the threshold</span><input name="ebayHighRate" type="number" min="0" step="0.01" value="2.35"></label>
+            </div>
+            <label class="field"><span>Threshold (USD, default $7,500)</span><input name="ebayThreshold" type="number" min="0" step="1" value="7500"></label>
+            <label class="check"><input name="ebayIntl" type="checkbox"> Add 1.65% international fee</label>
+            <div class="row-2">
+              <label class="field"><span>Cost of goods</span><input name="ebayCogs" type="number" min="0" step="0.01" value="20"></label>
+              <label class="field"><span>Insertion or other listing fees</span><input name="insertion" type="number" min="0" step="0.01" value="0"></label>
+            </div>
+            <label class="field"><span>Promoted Listing or ads cost</span><input name="ebayAds" type="number" min="0" step="0.01" value="0"></label>
+          </div>
+          <div class="actions"><button class="btn" type="submit">Recalculate</button></div>
+        </form>
+      </div>
+      <div>
+        <div class="card">
+          <h2 class="panel-title">Estimated result</h2>
+          <div id="mkt-results" class="results"></div>
+        </div>
+        <div class="slot block">Reserved advertisement / affiliate slot — no live ads.</div>
+      </div>
+    </div>
+
+    <article class="prose" style="margin-top:48px">
+      <h2>How this calculator works</h2>
+      <p>Amazon and eBay both take a share of a completed sale, but they do it in different shapes, which is why this page is a two-tab tool rather than one blended “marketplace fee.” On Amazon, a typical FBA sale pays a referral fee (a percentage of the total sales price, with a minimum) plus a fulfillment fee that depends on the item’s size tier, shipping weight and price band, plus — since 17 April 2026 in the US — a 3.5% fuel and logistics surcharge on that fulfillment fee. Storage, inbound placement, aged-inventory surcharges and advertising are extra and are left as optional fields so you can add the lines you actually incur.</p>
+      <p>On eBay, payment processing is bundled into the final value fee. For most US categories the published structure, checked on 14 November 2026 against eBay’s seller-fee pages, is 13.6% of the total amount of the sale up to $7,500 calculated per item, then 2.35% on the portion above $7,500, plus a per-order fee of $0.30 when the order is $10.00 or less and $0.40 when it is over $10.00. The “total amount of the sale” includes the item price, handling, shipping collected from the buyer (with some exceptions), sales tax, and other applicable charges. Some categories — books and media, jewelry, sneakers over $150, guitars, and others — use a different percentage; change the rate fields if your category is not “most categories.”</p>
+      <p>Profit on both tabs is what is left after marketplace fees, the cost of the goods, and (on eBay) the shipping cost you actually pay. Buyer-paid shipping is revenue; your postage or inbound freight is a cost. The result is an estimate for one unit, not an account-level invoice.</p>
+
+      <h2>The formulas</h2>
+      <p class="formula">Amazon referral = max(total sales price × referral %, minimum fee)<br>FBA fulfillment = rate-card amount × 1.035 (fuel surcharge)<br>Amazon profit = price + shipping charged − referral − FBA − storage − inbound − ads − COGS</p>
+      <p class="formula">eBay FVF = min(total, threshold) × 13.6% + max(total − threshold, 0) × 2.35% + per-order fee<br>eBay profit = item + shipping charged − FVF − insertion − ads − COGS − your shipping cost</p>
+      <p>The Amazon fulfillment lookup uses published US non-apparel, non-dangerous-goods rates for small standard (all three price bands) and for large standard in the $10–$50 band, including the peak card that runs from 15 October 2026 to 14 January 2027. Today, 14 November 2026, sits inside that peak window, so the peak box is ticked by default. If your item is under $10 or over $50 in the large-standard tier, or is apparel, hazardous, or bulky, type the fulfillment fee from Seller Central’s revenue calculator into the custom FBA field rather than trusting the mid-band lookup.</p>
+
+      <h2>Worked example</h2>
+      <div class="example">
+        <p><strong>Amazon FBA.</strong> A $24.99 home-and-kitchen item, no buyer shipping, 15% referral, large standard, 12 ounces, peak season, $8 cost of goods and no ads or storage. Referral is max($24.99 × 0.15, $0.30) = $3.75. The large-standard 8–12 oz peak rate for the $10–$50 band is $4.48, plus 3.5% surcharge ($0.16), so fulfillment is $4.64. Fees total $8.39. Profit is $24.99 − $8.00 − $8.39 = <strong>$8.60</strong>, a 34.4% margin on the selling price. Switch the peak box off and fulfillment falls to $4.20 × 1.035 = $4.35, and profit rises by about thirty cents — a reminder that the calendar matters as much as the size tier.</p>
+        <p><strong>eBay.</strong> A $50 item with $10 buyer-paid shipping, no tax, most-categories 13.6%, $20 cost of goods and $8 of actual postage. The total amount of the sale is $60, which is over $10, so the per-order fee is $0.40. Final value fee is $60 × 0.136 + $0.40 = $8.56. Profit is $50 + $10 − $20 − $8 − $8.56 = <strong>$23.44</strong>. If the same order were at $9.00 all-in, the per-order fee would drop to $0.30, which is why the calculator switches that line automatically.</p>
+      </div>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details open>
+          <summary>What is eBay’s final value fee in the United States?</summary>
+          <p>For most US categories, eBay charges 13.6% of the total amount of the sale up to $7,500 per item, then 2.35% on the portion above $7,500, plus $0.30 per order of $10 or less or $0.40 above $10. Some categories use a different percentage. There is no separate payment-processing fee on top of the final value fee.</p>
+        </details>
+        <details>
+          <summary>How are Amazon FBA fees estimated here?</summary>
+          <p>The calculator adds a category referral fee to a size-and-weight fulfillment lookup for US standard-size items, plus the 3.5% fuel and logistics surcharge in effect since 17 April 2026. Peak rates apply from 15 October 2026 to 14 January 2027. Low-inventory fees, storage utilisation, aged inventory, returns processing and inbound defects are not auto-calculated — add them in the optional fields or confirm a full preview in Seller Central.</p>
+        </details>
+        <details>
+          <summary>When were these fees checked?</summary>
+          <p>On 14 November 2026, against eBay’s seller fee pages and public write-ups of the US FBA 2026 rate card and Amazon’s 2026 referral and fulfillment update. Amazon’s own rate card in Seller Central is the authority if a cell disagrees with this page.</p>
+        </details>
+        <details>
+          <summary>Is this financial advice?</summary>
+          <p>No. It is a planning estimate for one unit in the US store. Other marketplaces, Professional versus Individual selling plans, store subscription discounts on eBay, and tax collection can all change the real settlement.</p>
+        </details>
+      </div>
+      <h2 class="sources">Sources</h2>
+      <ul>
+        <li><a href="https://www.ebay.com/sellercenter/selling/start-selling-on-ebay/seller-fees" rel="nofollow">eBay Seller Center: seller fees</a></li>
+        <li><a href="https://www.ebay.com/help/selling/fees-credits-invoices/frais-pour-les-vendeurs-particuliers?id=4822" rel="nofollow">eBay: selling fees / final value fees</a></li>
+        <li><a href="https://sell.amazon.com/pricing" rel="nofollow">Amazon: selling prices and referral fees</a></li>
+        <li><a href="https://sellingpartners.aboutamazon.com/update-to-u-s-referral-and-fulfillment-by-amazon-fees-for-2026" rel="nofollow">Amazon: 2026 US referral and FBA fee update</a></li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h3>MetricStack by AHM Global</h3>
+      <p>Free, no-signup calculators for founders, sellers and freelancers. Calculations run in your browser.</p>
+      <p>Contact: <a href="mailto:ahmglobal7@gmail.com">ahmglobal7@gmail.com</a></p>
+    </div>
+    <div>
+      <h3>Tools</h3>
+      <ul>
+        <li><a href="../tools/llm-api-cost.html">LLM API cost calculator</a></li>
+        <li><a href="../tools/saas-metrics.html">SaaS metrics bundle</a></li>
+        <li><a href="../tools/etsy-fees.html">Etsy fee &amp; profit calculator</a></li>
+        <li><a href="../tools/freelancer-takehome.html">Freelancer take-home calculator</a></li>
+        <li><a href="../tools/amazon-ebay-fees.html">Amazon FBA / eBay fees</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Site</h3>
+      <ul>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../privacy.html">Privacy</a></li>
+        <li><a href="../index.html#faq">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap disclaimer">
+    Estimates only, not financial, tax or legal advice. Fee schedules and list prices change, often without notice. Always confirm the live rate in your provider, marketplace or tax account before you list, bid or spend. MetricStack and AHM Global are not affiliated with OpenAI, Anthropic, Google, Mistral, Meta, Groq, DeepSeek, Etsy, Upwork, Fiverr, Amazon or eBay. © <span data-year>2026</span> AHM Global.
+  </div>
+</footer>
+<script src="../js/common.js"></script>
+<script src="../js/calculators.js"></script>
+<script src="../js/ui-market.js"></script>
+</body>
+</html>

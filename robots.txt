@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Replace the host below after the free subdomain is live.
+Sitemap: https://contactmetricstack-glitch.github.io/metricstack/sitemap.xml

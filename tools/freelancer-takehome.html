@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Freelancer take-home calculator (Upwork & Fiverr) — MetricStack</title>
+  <meta name="description" content="Calculate take-home pay after Upwork or Fiverr fees, withdrawal charges, and a manual USD to PKR or other currency rate. Fees checked 14 November 2026.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#0f1420">
+  <meta property="og:title" content="Freelancer take-home calculator (Upwork & Fiverr) — MetricStack">
+  <meta property="og:description" content="Calculate take-home pay after Upwork or Fiverr fees, withdrawal charges, and a manual USD to PKR or other currency rate. Fees checked 14 November 2026.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://contactmetricstack-glitch.github.io/metricstack/tools/freelancer-takehome.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://contactmetricstack-glitch.github.io/metricstack/tools/freelancer-takehome.html">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.svg">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What fee does Upwork charge freelancers?","acceptedAnswer":{"@type":"Answer","text":"Upwork’s freelancer service fee ranges from 0% to 15% per contract. The exact percentage is shown when you submit a proposal or receive an offer, and it is locked once the contract starts. This calculator lets you type the rate that applies to your contract rather than assuming a single flat cut."}},
+{"@type":"Question","name":"What percentage does Fiverr take from sellers?","acceptedAnswer":{"@type":"Answer","text":"Fiverr keeps 20% of every completed order, including extras and tips, so you receive 80% of the price the client pays for the gig. Withdrawal fees are separate: $0 to PayPal, $1 for a bank transfer via Payoneer, or $3 to a Payoneer account, according to Fiverr’s payout page as read on 14 November 2026."}}
+]}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#5aa2ff" opacity=".18"/><rect x="6" y="17" width="5" height="9" rx="1" fill="#5aa2ff"/><rect x="13.5" y="11" width="5" height="15" rx="1" fill="#7eb6ff"/><rect x="21" y="6" width="5" height="20" rx="1" fill="#5aa2ff"/></svg>
+      <span><span class="brand-text">MetricStack</span><span class="brand-sub">by AHM Global</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">☰</button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html#tools" aria-current="page">Tools</a>
+      <a href="../about.html">About</a>
+      <a href="../privacy.html">Privacy</a>
+    </nav>
+  </div>
+  <div class="slot slim slot-header">Reserved partner slot — no live ads or affiliate links yet.</div>
+</header>
+<main id="main">
+
+<section class="tool-page">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html">Home</a> / Tools / Freelancer take-home</p>
+    <h1>Freelancer take-home calculator</h1>
+    <p class="lede">See what you keep after Upwork or Fiverr’s service fee, the withdrawal charge, an optional tax reserve, and conversion from US dollars into Pakistani rupees or another currency at a rate you type.</p>
+    <div class="tool-layout">
+      <div class="card calc-panel">
+        <h2 class="panel-title">A contract or order</h2>
+        <form id="free-form">
+          <label class="field"><span>Gross amount (USD)</span><input name="gross" type="number" min="0" step="0.01" value="1000"></label>
+          <label class="field"><span>Platform</span>
+            <select name="platform">
+              <option value="upwork" selected>Upwork</option>
+              <option value="fiverr">Fiverr</option>
+            </select>
+          </label>
+          <div id="upwork-fee-wrap">
+            <label class="field"><span>Your Upwork contract fee (0–15%)</span><input name="upworkFee" type="number" min="0" max="15" step="0.1" value="10"></label>
+            <p class="note">Upwork shows this percentage on the offer or proposal and locks it for the contract. 10% is a placeholder, not a universal rate.</p>
+          </div>
+          <label class="field"><span>Withdrawal method</span><select name="withdrawMethod"></select></label>
+          <label class="field"><span>Withdrawal fee (USD)</span><input name="withdrawFee" type="number" min="0" step="0.01" value="0.99"></label>
+          <div class="row-2">
+            <label class="field"><span>Convert into</span>
+              <select name="currency">
+                <option value="PKR" selected>PKR — Pakistani rupee</option>
+                <option value="INR">INR — Indian rupee</option>
+                <option value="GBP">GBP — Pound sterling</option>
+                <option value="EUR">EUR — Euro</option>
+                <option value="CAD">CAD — Canadian dollar</option>
+                <option value="AUD">AUD — Australian dollar</option>
+                <option value="AED">AED — UAE dirham</option>
+                <option value="BDT">BDT — Bangladeshi taka</option>
+                <option value="PHP">PHP — Philippine peso</option>
+                <option value="NGN">NGN — Nigerian naira</option>
+                <option value="USD">USD — leave in dollars</option>
+              </select>
+            </label>
+            <label class="field"><span>Manual rate (local units per 1 USD)</span><input name="fxRate" type="number" min="0" step="0.0001" value="280" placeholder="e.g. 280"></label>
+          </div>
+          <label class="field"><span>Optional tax reserve (%)</span><input name="taxRate" type="number" min="0" max="100" step="0.1" value="0"></label>
+          <p class="note">The exchange rate is whatever you type. This page does not fetch a live market rate, because a stale automatic rate is worse than a number you copied from your bank or payout provider this morning.</p>
+          <div class="actions"><button class="btn" type="submit">Recalculate</button></div>
+        </form>
+      </div>
+      <div>
+        <div class="card">
+          <h2 class="panel-title">What you keep</h2>
+          <div id="free-results" class="results"></div>
+        </div>
+        <div class="slot block">Reserved advertisement / affiliate slot — no live ads.</div>
+      </div>
+    </div>
+
+    <article class="prose" style="margin-top:48px">
+      <h2>How this calculator works</h2>
+      <p>The figure on a client’s offer is not the figure that lands in your bank account. Marketplaces take a service fee first. The remaining balance then sits until you withdraw it, at which point the platform may charge a flat payout fee, and your bank or wallet may convert the dollars at a rate you do not control. Freelancers who bid as if the headline amount were take-home pay quietly give away their margin. This page walks the stack in that order and stops before inventing a live currency rate.</p>
+      <p>For <strong>Fiverr</strong>, the service fee is straightforward. Official seller guidance, re-confirmed on 14 November 2026, is that Fiverr keeps 20% of every completed order, including Gig Extras and tips, so you receive 80% of the price the client paid for the work. The client also pays Fiverr a separate service fee at checkout; that charge does not come out of your share, so it is not deducted here.</p>
+      <p>For <strong>Upwork</strong>, the freelancer service fee is no longer a single public flat rate for every contract. Upwork’s help centre states that the fee ranges from 0% to 15% per contract, is shown when you submit a proposal or a client sends an offer, and is locked once the contract starts. Exceptions exist (for example Payroll, Any Hire, Direct Contracts, and some Enterprise arrangements). Because the live percentage is contract-specific, this calculator asks you to type the fee that applies to the contract you are modelling. The default of 10% is only a starting point so the form is not empty; always replace it with the number on your offer.</p>
+      <p>Withdrawal fees are layered on after the service fee. On Upwork, official and recently documented methods include $0.99 for a transfer to a local bank, $2.99 for a direct US-bank (ACH) payout when your tax address is outside the United States (a change that took effect on 1 September 2026; a US tax address is still $0 on that route), and $50 for a USD wire. PayPal, Payoneer and wallet routes can add their own charges on top; use the custom fee field if your path is not in the list. On Fiverr, the payout page lists $0 for PayPal, $1 for a bank transfer via Payoneer, and $3 for a transfer to a Payoneer account, with minimum withdrawal amounts and waiting periods that this calculator does not try to police.</p>
+
+      <h2>The formula</h2>
+      <p class="formula">platform fee = gross × service fee %<br>after withdrawal = gross − platform fee − withdrawal fee<br>net USD = after withdrawal × (1 − optional tax reserve)<br>local currency = net USD × (units of local currency per 1 USD)</p>
+      <p>The tax reserve is optional and is not a tax calculation. If you set 20%, the page simply holds back a fifth of the post-withdrawal dollars so you can see a more conservative take-home. Your actual income tax, sales tax or withholding depends on where you are resident and how you are invoicing, which is why it is a manual percentage rather than a built-in tax engine.</p>
+
+      <h2>Worked example</h2>
+      <div class="example">
+        <p><strong>Upwork.</strong> A $1,000 milestone, a 10% contract fee, and a $0.99 local-bank withdrawal. The platform fee is $100. After withdrawal you have $899.01. At a manual rate of 280 Pakistani rupees per dollar, that is <strong>251,722.80 PKR</strong> before any tax reserve. Raise the fee to 15% and the same withdrawal leaves $849.01, or 237,722.80 PKR at the same rate — a $50 gap that is easy to miss if you only remembered “Upwork takes a cut.”</p>
+        <p><strong>Fiverr.</strong> A $500 order at the 20% seller fee leaves $400. Withdrawing to a Payoneer account costs $3, so net USD is $397. At 280 PKR per dollar that is <strong>111,160 PKR</strong>. The same order sent to PayPal at a $0 Fiverr fee would leave $400, but PayPal may still apply its own conversion rate when the money leaves the dollar balance — which is why the rate field is yours to fill from the payout you actually received last time, not from a mid-market headline.</p>
+      </div>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details open>
+          <summary>What fee does Upwork charge freelancers?</summary>
+          <p>Upwork’s freelancer service fee ranges from 0% to 15% per contract. The exact percentage is shown when you submit a proposal or receive an offer, and it is locked once the contract starts. Type the rate from your contract rather than assuming a single flat cut.</p>
+        </details>
+        <details>
+          <summary>What percentage does Fiverr take from sellers?</summary>
+          <p>Fiverr keeps 20% of every completed order, including extras and tips, so you receive 80%. Withdrawal fees are separate: $0 to PayPal, $1 for a bank transfer via Payoneer, or $3 to a Payoneer account, according to Fiverr’s payout page as read on 14 November 2026.</p>
+        </details>
+        <details>
+          <summary>Why do I have to enter the exchange rate myself?</summary>
+          <p>Payout providers and banks use their own rates, which often include a hidden spread. A calculator that pretends to know this morning’s “official” PKR rate would be wrong for the route you actually use. Copy the rate from your last withdrawal or from the provider’s quote, then run the numbers.</p>
+        </details>
+        <details>
+          <summary>Is this tax advice?</summary>
+          <p>No. The optional tax reserve is a planning hold-back only. It does not calculate income tax, sales tax or treaty withholding for any country.</p>
+        </details>
+      </div>
+      <h2 class="sources">Sources</h2>
+      <ul>
+        <li><a href="https://support.upwork.com/hc/en-us/articles/211062538-Learn-about-the-Freelancer-Service-Fee" rel="nofollow">Upwork: Freelancer Service Fee</a></li>
+        <li><a href="https://help.fiverr.com/hc/en-us/articles/360010530058-Withdrawing-your-earnings-managing-payout-methods" rel="nofollow">Fiverr: withdrawing earnings and payout methods</a></li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h3>MetricStack by AHM Global</h3>
+      <p>Free, no-signup calculators for founders, sellers and freelancers. Calculations run in your browser.</p>
+      <p>Contact: <a href="mailto:ahmglobal7@gmail.com">ahmglobal7@gmail.com</a></p>
+    </div>
+    <div>
+      <h3>Tools</h3>
+      <ul>
+        <li><a href="../tools/llm-api-cost.html">LLM API cost calculator</a></li>
+        <li><a href="../tools/saas-metrics.html">SaaS metrics bundle</a></li>
+        <li><a href="../tools/etsy-fees.html">Etsy fee &amp; profit calculator</a></li>
+        <li><a href="../tools/freelancer-takehome.html">Freelancer take-home calculator</a></li>
+        <li><a href="../tools/amazon-ebay-fees.html">Amazon FBA / eBay fees</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Site</h3>
+      <ul>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../privacy.html">Privacy</a></li>
+        <li><a href="../index.html#faq">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap disclaimer">
+    Estimates only, not financial, tax or legal advice. Fee schedules and list prices change, often without notice. Always confirm the live rate in your provider, marketplace or tax account before you list, bid or spend. MetricStack and AHM Global are not affiliated with OpenAI, Anthropic, Google, Mistral, Meta, Groq, DeepSeek, Etsy, Upwork, Fiverr, Amazon or eBay. © <span data-year>2026</span> AHM Global.
+  </div>
+</footer>
+<script src="../js/common.js"></script>
+<script src="../js/calculators.js"></script>
+<script src="../js/ui-freelancer.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LLM API cost calculator — MetricStack</title>
+  <meta name="description" content="Compare current per-million-token API prices for OpenAI, Anthropic, Google, Mistral, Groq and DeepSeek. List prices checked 14 November 2026.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#0f1420">
+  <meta property="og:title" content="LLM API cost calculator — MetricStack">
+  <meta property="og:description" content="Compare current per-million-token API prices for OpenAI, Anthropic, Google, Mistral, Groq and DeepSeek. List prices checked 14 November 2026.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://contactmetricstack-glitch.github.io/metricstack/tools/llm-api-cost.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://contactmetricstack-glitch.github.io/metricstack/tools/llm-api-cost.html">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.svg">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"How is LLM API cost calculated?","acceptedAnswer":{"@type":"Answer","text":"Providers bill in US dollars per million tokens. Cost equals uncached input tokens times the input rate, plus cached input tokens times the cached rate, plus output tokens times the output rate, then multiplied by the number of requests."}},
+    {"@type":"Question","name":"When were these prices checked?","acceptedAnswer":{"@type":"Answer","text":"List prices were checked on 14 November 2026 against official provider pages from OpenAI, Anthropic, Google, Mistral, Groq and DeepSeek."}},
+    {"@type":"Question","name":"Why do some Meta / Groq models have no price?","acceptedAnswer":{"@type":"Answer","text":"On GroqCloud, Llama 3.3 70B and Llama 3.1 8B Instant are listed as Enterprise models with contact-sales pricing. The calculator does not invent a rate. You can enter a custom per-million price if you have a quote."}},
+    {"@type":"Question","name":"Does this include batch, fast mode or long-context uplifts?","acceptedAnswer":{"@type":"Answer","text":"No. The table uses standard-tier list prices for ordinary short-context calls. Batch discounts, fast or priority modes, and long-context multipliers are described in the notes and should be confirmed on the provider page."}}
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#5aa2ff" opacity=".18"/><rect x="6" y="17" width="5" height="9" rx="1" fill="#5aa2ff"/><rect x="13.5" y="11" width="5" height="15" rx="1" fill="#7eb6ff"/><rect x="21" y="6" width="5" height="20" rx="1" fill="#5aa2ff"/></svg>
+      <span><span class="brand-text">MetricStack</span><span class="brand-sub">by AHM Global</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">☰</button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html#tools" aria-current="page">Tools</a>
+      <a href="../about.html">About</a>
+      <a href="../privacy.html">Privacy</a>
+    </nav>
+  </div>
+  <div class="slot slim slot-header">Reserved partner slot — no live ads or affiliate links yet.</div>
+</header>
+<main id="main">
+
+<section class="tool-page">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html">Home</a> / Tools / LLM API cost</p>
+    <h1>LLM API cost calculator</h1>
+    <p class="lede">Estimate what a workload will cost across major models from OpenAI, Anthropic, Google, Mistral, Groq and DeepSeek. Prices are official list rates, checked <span id="prices-checked">14 November 2026</span>.</p>
+
+    <div class="tool-layout">
+      <div class="card calc-panel">
+        <h2 class="panel-title">Your workload</h2>
+        <form id="llm-form">
+          <label class="field"><span>Workload preset</span>
+            <select name="preset">
+              <option value="chatbot">Chatbot support (short turns, some cache)</option>
+              <option value="rag">RAG assistant (long prompts, heavier cache)</option>
+              <option value="agent">Agent loop (long prompts and long answers)</option>
+              <option value="custom">Custom</option>
+            </select>
+          </label>
+          <div class="row-2">
+            <label class="field"><span>Input tokens per request</span><input name="inputTokens" type="number" min="0" step="1" value="1500"></label>
+            <label class="field"><span>Output tokens per request</span><input name="outputTokens" type="number" min="0" step="1" value="400"></label>
+          </div>
+          <div class="row-2">
+            <label class="field"><span>Requests in the period</span><input name="requests" type="number" min="0" step="1" value="10000"></label>
+            <label class="field"><span>Cached input share (%)</span><input name="cachedShare" type="number" min="0" max="100" step="1" value="40"></label>
+          </div>
+          <label class="field"><span>Show providers</span>
+            <select name="provider">
+              <option value="all">All providers</option>
+              <option value="OpenAI">OpenAI</option>
+              <option value="Anthropic">Anthropic</option>
+              <option value="Google">Google</option>
+              <option value="Mistral">Mistral</option>
+              <option value="Groq">Groq</option>
+              <option value="DeepSeek">DeepSeek</option>
+              <option value="Meta / Groq">Meta / Groq</option>
+            </select>
+          </label>
+          <p class="field-label">Optional custom rates (USD per 1M tokens)</p>
+          <div class="row-3">
+            <label class="field"><span>Custom input</span><input name="customInput" type="number" min="0" step="0.001" placeholder="—"></label>
+            <label class="field"><span>Custom output</span><input name="customOutput" type="number" min="0" step="0.001" placeholder="—"></label>
+            <label class="field"><span>Custom cached</span><input name="customCached" type="number" min="0" step="0.001" placeholder="—"></label>
+          </div>
+          <div class="actions"><button class="btn" type="submit">Recalculate</button></div>
+        </form>
+      </div>
+      <div>
+        <div class="card">
+          <h2 class="panel-title">Comparison</h2>
+          <div id="llm-results" class="results"></div>
+        </div>
+        <div class="slot block">Reserved advertisement / affiliate slot — no live ads.</div>
+      </div>
+    </div>
+
+    <article class="prose" style="margin-top:48px">
+      <h2>How this calculator works</h2>
+      <p>Large language model APIs almost all sell usage the same way: you pay for the tokens you send (input) and the tokens the model writes (output). A token is a slice of text, often a short word or part of a word. As a rough rule of thumb, 1,000 English tokens is a little under 750 words, but code, tables and non-English text can land higher or lower. Providers publish a list price in US dollars per million tokens, and your bill is simply volume times that rate.</p>
+      <p>The calculator takes three volume numbers — input tokens per request, output tokens per request, and how many requests you expect in the period — and multiplies them by each model’s standard-tier list price. If you know that a chunk of the prompt will hit a prompt cache (a system prompt, a retrieved document, or earlier turns that the vendor can reuse), you can set a cached input share. Cached tokens are billed at the vendor’s cached-input rate, which is usually a small fraction of the fresh-input rate. The comparison table then sorts the models with a public list price from cheapest to most expensive for that exact workload.</p>
+      <p>That last point matters more than a headline “cheapest model” chart. Output is usually several times more expensive than input. A short-answer classifier can look cheap on a flagship model, while a long-form agent that writes thousands of tokens per turn can make a mid-tier model the better buy. The presets are starting points, not benchmarks: a chatbot turn, a retrieval-augmented answer with a long prompt, and an agent loop with both a heavy prompt and a long reply.</p>
+
+      <h2>The formula</h2>
+      <p>For one request:</p>
+      <p class="formula">cost = ((input × (1 − cacheShare)) / 1,000,000) × inputPrice<br>+ ((input × cacheShare) / 1,000,000) × cachedPrice<br>+ (output / 1,000,000) × outputPrice</p>
+      <p>Total cost is that figure times the number of requests. If you leave the cache share at zero, the middle term drops out and you are paying the full input rate on every token you send. Custom rates, if you type them, replace the list prices for the comparison so you can model a negotiated discount or a quote you already have.</p>
+
+      <h2>Worked example</h2>
+      <div class="example">
+        <p>Suppose you run a support chatbot: 1,500 input tokens and 400 output tokens, 10,000 requests in a month, and 40% of the input hits a cache.</p>
+        <p>On <strong>Claude Sonnet 5.5</strong> the official rates (checked 14 November 2026) are $2.00 per million input tokens, $0.10 cached, and $10.00 per million output tokens.</p>
+        <ul>
+          <li>Uncached input: 1,500 × 0.60 = 900 tokens → 900 / 1,000,000 × $2.00 = $0.0018</li>
+          <li>Cached input: 1,500 × 0.40 = 600 tokens → 600 / 1,000,000 × $0.10 = $0.00006</li>
+          <li>Output: 400 / 1,000,000 × $10.00 = $0.0040</li>
+          <li>Per request: $0.00586. Times 10,000 requests: <strong>$58.60</strong> for the month.</li>
+        </ul>
+        <p>The same workload on <strong>GPT-6 Luna</strong> at $0.10 / $0.50 (cached $0.01) comes to about $2.96, and on <strong>DeepSeek Flash at off-peak rates</strong> ($0.15 / $0.60, cached $0.003) it comes to about $3.77. The gap is the point of the table: once you know your shape of traffic, the “right” model is a cost and quality decision, not a brand default.</p>
+      </div>
+
+      <h2>What the list prices include — and what they do not</h2>
+      <p>All figures in the table are standard-tier, first-party list prices in USD per million tokens, verified on 14 November 2026. OpenAI prices come from the official API pricing page (GPT-6 Astra, GPT-6.1 Sol, GPT-6.1 Terra and GPT-6 Luna use the short-context band of 272,000 input tokens or fewer; longer prompts cost more). Anthropic prices come from the Claude platform pricing page (Fable 5.2, Opus 5.5, Sonnet 5.5, and both Haiku 5.5 prompt-length bands). Google prices come from the Gemini Developer API pricing page; Gemini 4 Carbon and Argon are on an introductory $2 / $10 rate through 30 November 2026, and Gemini 3.8 Flash is $0.75 / $3.75 through 31 December 2026. Mistral prices come from the official API pricing docs for Large 4, Small 4 and Codestral. DeepSeek prices come from the official Models &amp; Pricing page and are split into peak and off-peak; peak hours are 01:00–04:00 and 06:00–10:00 UTC, Monday to Friday, excluding Chinese public holidays, and off-peak is half the peak rate. Groq prices for GPT-OSS 120B and 20B come from the GroqCloud model catalogue.</p>
+      <p>Meta’s Llama 3.3 70B and Llama 3.1 8B Instant are still listed on Groq, but only as Enterprise models with “Contact Sales” pricing. This calculator does not invent a number for them. If you have a quote, type it into the custom rate fields. Public GPT-OSS models on Groq are included at the published $0.15 / $0.60 and $0.075 / $0.30 rates.</p>
+      <p>The table also leaves out several real costs that can matter in production: batch discounts (often 50%), OpenAI and Anthropic fast or priority modes, Google grounding or search tools, DeepSeek web-search add-ons, image or audio tokens, and data-residency uplifts. If your workload uses those features, treat this page as a baseline and add the extra line items from the vendor’s page.</p>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details open>
+          <summary>How is LLM API cost calculated?</summary>
+          <p>Providers bill in US dollars per million tokens. Cost equals uncached input tokens times the input rate, plus cached input tokens times the cached rate, plus output tokens times the output rate, then multiplied by the number of requests.</p>
+        </details>
+        <details>
+          <summary>When were these prices checked?</summary>
+          <p>List prices were checked on 14 November 2026 against official provider pages from OpenAI, Anthropic, Google, Mistral, Groq and DeepSeek. The date is shown above the table so you can see how fresh the figures are.</p>
+        </details>
+        <details>
+          <summary>Why do some Meta / Groq models have no price?</summary>
+          <p>On GroqCloud, Llama 3.3 70B and Llama 3.1 8B Instant are listed as Enterprise models with contact-sales pricing. The calculator does not invent a rate. You can enter a custom per-million price if you have a quote.</p>
+        </details>
+        <details>
+          <summary>Does this include batch, fast mode or long-context uplifts?</summary>
+          <p>No. The table uses standard-tier list prices for ordinary short-context calls. Batch discounts, fast or priority modes, and long-context multipliers are described in the notes and should be confirmed on the provider page before you budget.</p>
+        </details>
+      </div>
+
+      <h2 class="sources">Sources</h2>
+      <ul>
+        <li><a href="https://developers.openai.com/api/docs/pricing" rel="nofollow">OpenAI API pricing</a></li>
+        <li><a href="https://platform.claude.com/docs/en/about-claude/pricing" rel="nofollow">Anthropic Claude API pricing</a></li>
+        <li><a href="https://aistudio.google.com/docs/pricing" rel="nofollow">Gemini Developer API pricing</a></li>
+        <li><a href="https://docs.mistral.ai/inference/pricing" rel="nofollow">Mistral API pricing</a></li>
+        <li><a href="https://console.groq.com/docs/models" rel="nofollow">GroqCloud supported models and prices</a></li>
+        <li><a href="https://api-docs.deepseek.com/quick_start/pricing/" rel="nofollow">DeepSeek models and pricing</a></li>
+      </ul>
+      <p>Estimates only — not a quote or an invoice. Providers can change list prices at any time.</p>
+    </article>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h3>MetricStack by AHM Global</h3>
+      <p>Free, no-signup calculators for founders, sellers and freelancers. Calculations run in your browser.</p>
+      <p>Contact: <a href="mailto:ahmglobal7@gmail.com">ahmglobal7@gmail.com</a></p>
+    </div>
+    <div>
+      <h3>Tools</h3>
+      <ul>
+        <li><a href="../tools/llm-api-cost.html">LLM API cost calculator</a></li>
+        <li><a href="../tools/saas-metrics.html">SaaS metrics bundle</a></li>
+        <li><a href="../tools/etsy-fees.html">Etsy fee &amp; profit calculator</a></li>
+        <li><a href="../tools/freelancer-takehome.html">Freelancer take-home calculator</a></li>
+        <li><a href="../tools/amazon-ebay-fees.html">Amazon FBA / eBay fees</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Site</h3>
+      <ul>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../privacy.html">Privacy</a></li>
+        <li><a href="../index.html#faq">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap disclaimer">
+    Estimates only, not financial, tax or legal advice. Fee schedules and list prices change, often without notice. Always confirm the live rate in your provider, marketplace or tax account before you list, bid or spend. MetricStack and AHM Global are not affiliated with OpenAI, Anthropic, Google, Mistral, Meta, Groq, DeepSeek, Etsy, Upwork, Fiverr, Amazon or eBay. © <span data-year>2026</span> AHM Global.
+  </div>
+</footer>
+<script src="../js/common.js"></script>
+<script src="../js/calculators.js"></script>
+<script src="../js/ui-llm.js"></script>
+</body>
+</html>

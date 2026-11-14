@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Etsy fee & profit calculator — MetricStack</title>
+  <meta name="description" content="Calculate Etsy listing, 6.5% transaction, payment processing and Offsite Ads fees, then profit after cost of goods. Fees checked 14 November 2026.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#0f1420">
+  <meta property="og:title" content="Etsy fee & profit calculator — MetricStack">
+  <meta property="og:description" content="Calculate Etsy listing, 6.5% transaction, payment processing and Offsite Ads fees, then profit after cost of goods. Fees checked 14 November 2026.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://contactmetricstack-glitch.github.io/metricstack/tools/etsy-fees.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://contactmetricstack-glitch.github.io/metricstack/tools/etsy-fees.html">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.svg">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What fees does Etsy charge sellers?","acceptedAnswer":{"@type":"Answer","text":"Etsy charges a $0.20 listing fee, a 6.5% transaction fee on the item price plus shipping and gift wrap, and a separate payment-processing fee that varies by country. In the United States that processing fee is 3% plus $0.25 per order, including shipping and sales tax. Offsite Ads, if they apply, add 15% or 12% of the attributed order, capped at $100."}},
+{"@type":"Question","name":"Does the 6.5% transaction fee apply to sales tax?","acceptedAnswer":{"@type":"Answer","text":"If you sell from the United States, Etsy’s policy is that the transaction fee does not apply to sales tax. If you sell from elsewhere, the transaction fee generally applies to the listing price, shipping and gift wrap, and you should confirm the tax treatment in your shop."}}
+]}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#5aa2ff" opacity=".18"/><rect x="6" y="17" width="5" height="9" rx="1" fill="#5aa2ff"/><rect x="13.5" y="11" width="5" height="15" rx="1" fill="#7eb6ff"/><rect x="21" y="6" width="5" height="20" rx="1" fill="#5aa2ff"/></svg>
+      <span><span class="brand-text">MetricStack</span><span class="brand-sub">by AHM Global</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">☰</button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html#tools" aria-current="page">Tools</a>
+      <a href="../about.html">About</a>
+      <a href="../privacy.html">Privacy</a>
+    </nav>
+  </div>
+  <div class="slot slim slot-header">Reserved partner slot — no live ads or affiliate links yet.</div>
+</header>
+<main id="main">
+
+<section class="tool-page">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html">Home</a> / Tools / Etsy fees</p>
+    <h1>Etsy fee &amp; profit calculator</h1>
+    <p class="lede">See the $0.20 listing fee, 6.5% transaction fee, payment processing, and an optional Offsite Ads charge — then what you keep after cost of goods. Fee schedule checked 14 November 2026.</p>
+    <div class="tool-layout">
+      <div class="card calc-panel">
+        <h2 class="panel-title">One order</h2>
+        <form id="etsy-form">
+          <div class="row-2">
+            <label class="field"><span>Item price</span><input name="itemPrice" type="number" min="0" step="0.01" value="40"></label>
+            <label class="field"><span>Quantity</span><input name="qty" type="number" min="1" step="1" value="1"></label>
+            <label class="field"><span>Shipping charged</span><input name="shipping" type="number" min="0" step="0.01" value="8"></label>
+            <label class="field"><span>Gift wrap charged</span><input name="giftWrap" type="number" min="0" step="0.01" value="0"></label>
+            <label class="field"><span>Sales tax collected</span><input name="salesTax" type="number" min="0" step="0.01" value="0"></label>
+            <label class="field"><span>Cost of goods + packing</span><input name="cogs" type="number" min="0" step="0.01" value="12"></label>
+          </div>
+          <label class="field"><span>Other costs (ads, postage you actually spend, etc.)</span><input name="otherCosts" type="number" min="0" step="0.01" value="0"></label>
+          <label class="field"><span>Payment processing country</span>
+            <select name="country">
+              <option value="US" selected>United States — 3% + $0.25</option>
+              <option value="UK">United Kingdom — 4% + £0.20 (confirm in shop)</option>
+              <option value="CA">Canada — 3% + C$0.25 (confirm in shop)</option>
+              <option value="AU">Australia — 3% + A$0.25 (confirm in shop)</option>
+              <option value="CUSTOM">Custom processing rate</option>
+            </select>
+          </label>
+          <div class="row-3">
+            <label class="field"><span>Listing fee</span><input name="listingFee" type="number" min="0" step="0.01" value="0.20"></label>
+            <label class="field"><span>Transaction fee %</span><input name="txnRate" type="number" min="0" step="0.01" value="6.5"></label>
+            <label class="field"><span>Processing %</span><input name="procPct" type="number" min="0" step="0.01" value="3"></label>
+          </div>
+          <label class="field"><span>Processing fixed fee</span><input name="procFixed" type="number" min="0" step="0.01" value="0.25"></label>
+          <label class="check"><input name="txnIncludesTax" type="checkbox"> Apply the transaction fee to sales tax as well (usually off for US sellers)</label>
+          <label class="field"><span>Offsite Ads</span>
+            <select name="offsite">
+              <option value="none" selected>Not an Offsite Ads order</option>
+              <option value="15">15% (under $10,000 in trailing 365-day sales)</option>
+              <option value="12">12% ($10,000 or more in trailing sales)</option>
+              <option value="custom">Custom %</option>
+            </select>
+          </label>
+          <label class="field"><span>Custom Offsite Ads % (if selected)</span><input name="offsiteCustom" type="number" min="0" step="0.01" value="15"></label>
+          <div class="actions"><button class="btn" type="submit">Recalculate</button></div>
+        </form>
+      </div>
+      <div>
+        <div class="card">
+          <h2 class="panel-title">Breakdown</h2>
+          <div id="etsy-results" class="results"></div>
+        </div>
+        <div class="slot block">Reserved advertisement / affiliate slot — no live ads.</div>
+      </div>
+    </div>
+
+    <article class="prose" style="margin-top:48px">
+      <h2>How this calculator works</h2>
+      <p>Etsy does not charge one fee. It stacks several, and sellers regularly under-price a listing because they only remembered one of them. This page adds the charges that apply to a single completed order, then subtracts your cost of goods and any extra costs you type, so you can see profit and the effective fee rate on that sale.</p>
+      <p>The first charge is the listing fee: $0.20 each time you publish or renew a listing, whether or not it sells. Auto-renewals after a sale also carry that fee. The calculator includes one listing fee per order by default; if you are modelling a sale from a listing you already paid for in a previous period, you can set the listing fee to zero, but over a year the $0.20 is a real cost of staying on the marketplace.</p>
+      <p>The second charge is the transaction fee of 6.5% of the total order amount in your listing currency. That base includes the item price, the shipping you charge the buyer, and gift wrap. It is separate from payment processing. The third charge is the Etsy Payments processing fee: a percentage plus a fixed amount, taken on the gross order including shipping and, where you collect it, sales tax. The percentage and the fixed amount vary by country. For shops depositing to a United States bank account, Etsy’s help pages describe the rate as 3% plus $0.25 per order. Other countries are offered here as starting points you should confirm inside your own shop, or you can type a custom pair of figures.</p>
+      <p>If the order was attributed to Offsite Ads, a further advertising fee applies: 15% of the attributed order if your shop made less than $10,000 on Etsy in the past 365 days, or 12% once you have reached that threshold. The Offsite Ads fee is capped at $100 per order. This calculator applies that cap automatically.</p>
+
+      <h2>The formula</h2>
+      <p class="formula">transaction base = (item price × quantity) + shipping + gift wrap<br>transaction fee = transaction base × 6.5%<br>processing fee = (transaction base + sales tax) × processing % + fixed fee<br>Offsite Ads fee = min(order × 15% or 12%, $100)<br>profit = transaction base − cost of goods − other costs − all fees</p>
+      <p>Sales tax is treated as money you collect and pay onward, so it is not added to profit. For United States sellers, the 6.5% transaction fee is not applied to sales tax unless you tick the optional box; Etsy’s Fees &amp; Payments Policy states that US transaction fees do not apply to sales tax. Processing, however, is still calculated on the gross including tax.</p>
+
+      <h2>Worked example</h2>
+      <div class="example">
+        <p>You sell one item at $40 with $8 shipping, no gift wrap and no tax. Cost of goods and packing is $12. You are a US shop, and the order is not from Offsite Ads.</p>
+        <ul>
+          <li>Transaction base: $48.00</li>
+          <li>Listing fee: $0.20</li>
+          <li>Transaction fee: 6.5% × $48.00 = $3.12</li>
+          <li>Processing: 3% × $48.00 + $0.25 = $1.69</li>
+          <li>Total fees: $5.01 (an effective 10.4% of the $48 the buyer paid you for the item and shipping)</li>
+          <li>Profit: $48.00 − $12.00 − $5.01 = <strong>$30.99</strong></li>
+        </ul>
+        <p>If the same order had been attributed to Offsite Ads at 15%, the ads fee would be min($48 × 0.15, $100) = $7.20. Total fees would rise to $12.21 and profit would fall to <strong>$23.79</strong>. That is why a “healthy” margin on the product itself can still disappear on an advertised order.</p>
+      </div>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details open>
+          <summary>What fees does Etsy charge sellers?</summary>
+          <p>Etsy charges a $0.20 listing fee, a 6.5% transaction fee on the item price plus shipping and gift wrap, and a separate payment-processing fee that varies by country. In the United States that processing fee is 3% plus $0.25 per order, including shipping and sales tax. Offsite Ads, if they apply, add 15% or 12% of the attributed order, capped at $100.</p>
+        </details>
+        <details>
+          <summary>Does the 6.5% transaction fee apply to sales tax?</summary>
+          <p>If you sell from the United States, Etsy’s policy is that the transaction fee does not apply to sales tax. If you sell from elsewhere, the transaction fee generally applies to the listing price, shipping and gift wrap, and you should confirm the tax treatment in your shop. Processing fees are a separate line and typically do include tax.</p>
+        </details>
+        <details>
+          <summary>When were these fees checked?</summary>
+          <p>On 14 November 2026, against Etsy’s “What are the Fees and Taxes for Selling on Etsy?” help article, the payment-processing help article, and the Fees &amp; Payments Policy. Rates can change; the live figures in your payment account always win.</p>
+        </details>
+        <details>
+          <summary>Is this financial advice?</summary>
+          <p>No. It is an estimate for one order. Currency conversion, deposit fees, pattern-site sales, VAT or sales-tax remittances, and refunds can all move the real number.</p>
+        </details>
+      </div>
+      <h2 class="sources">Sources</h2>
+      <ul>
+        <li><a href="https://help.etsy.com/hc/en-us/articles/115014483627-What-are-the-Fees-and-Taxes-for-Selling-on-Etsy" rel="nofollow">Etsy Help: fees and taxes</a></li>
+        <li><a href="https://help.etsy.com/hc/en-us/articles/115015628847-What-are-Payment-Processing-Fees-for-Selling-on-Etsy" rel="nofollow">Etsy Help: payment processing fees</a></li>
+        <li><a href="https://www.etsy.com/legal/fees/" rel="nofollow">Etsy Fees &amp; Payments Policy</a></li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h3>MetricStack by AHM Global</h3>
+      <p>Free, no-signup calculators for founders, sellers and freelancers. Calculations run in your browser.</p>
+      <p>Contact: <a href="mailto:ahmglobal7@gmail.com">ahmglobal7@gmail.com</a></p>
+    </div>
+    <div>
+      <h3>Tools</h3>
+      <ul>
+        <li><a href="../tools/llm-api-cost.html">LLM API cost calculator</a></li>
+        <li><a href="../tools/saas-metrics.html">SaaS metrics bundle</a></li>
+        <li><a href="../tools/etsy-fees.html">Etsy fee &amp; profit calculator</a></li>
+        <li><a href="../tools/freelancer-takehome.html">Freelancer take-home calculator</a></li>
+        <li><a href="../tools/amazon-ebay-fees.html">Amazon FBA / eBay fees</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Site</h3>
+      <ul>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../privacy.html">Privacy</a></li>
+        <li><a href="../index.html#faq">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap disclaimer">
+    Estimates only, not financial, tax or legal advice. Fee schedules and list prices change, often without notice. Always confirm the live rate in your provider, marketplace or tax account before you list, bid or spend. MetricStack and AHM Global are not affiliated with OpenAI, Anthropic, Google, Mistral, Meta, Groq, DeepSeek, Etsy, Upwork, Fiverr, Amazon or eBay. © <span data-year>2026</span> AHM Global.
+  </div>
+</footer>
+<script src="../js/common.js"></script>
+<script src="../js/calculators.js"></script>
+<script src="../js/ui-etsy.js"></script>
+</body>
+</html>

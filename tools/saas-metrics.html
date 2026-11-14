@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SaaS metrics calculator (MRR, CAC, churn, LTV, A/B, ROAS) — MetricStack</title>
+  <meta name="description" content="Free SaaS calculators for MRR/ARR, CAC payback, churn, LTV:CAC, A/B test significance and ROAS. Formulas and a worked example included.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#0f1420">
+  <meta property="og:title" content="SaaS metrics calculator (MRR, CAC, churn, LTV, A/B, ROAS) — MetricStack">
+  <meta property="og:description" content="Free SaaS calculators for MRR/ARR, CAC payback, churn, LTV:CAC, A/B test significance and ROAS. Formulas and a worked example included.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://contactmetricstack-glitch.github.io/metricstack/tools/saas-metrics.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://contactmetricstack-glitch.github.io/metricstack/tools/saas-metrics.html">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.svg">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What is the difference between MRR and ARR?","acceptedAnswer":{"@type":"Answer","text":"MRR is recurring revenue expressed per month. ARR is that same run-rate expressed per year, usually ending MRR times 12. Neither is a cash forecast."}},
+{"@type":"Question","name":"What LTV:CAC ratio is considered healthy?","acceptedAnswer":{"@type":"Answer","text":"A common rule of thumb is 3:1 or better, meaning lifetime gross profit is at least three times what you paid to acquire the customer. It is a heuristic, not a law, and it depends on payback time and how reliable your churn figure is."}},
+{"@type":"Question","name":"When is an A/B test statistically significant?","acceptedAnswer":{"@type":"Answer","text":"This calculator uses a two-proportion z-test. At a 95% confidence level, a result is flagged as significant when the absolute z-score is at least 1.96, which is the same as a two-sided p-value of 0.05 or below."}}
+]}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#5aa2ff" opacity=".18"/><rect x="6" y="17" width="5" height="9" rx="1" fill="#5aa2ff"/><rect x="13.5" y="11" width="5" height="15" rx="1" fill="#7eb6ff"/><rect x="21" y="6" width="5" height="20" rx="1" fill="#5aa2ff"/></svg>
+      <span><span class="brand-text">MetricStack</span><span class="brand-sub">by AHM Global</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">☰</button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html#tools" aria-current="page">Tools</a>
+      <a href="../about.html">About</a>
+      <a href="../privacy.html">Privacy</a>
+    </nav>
+  </div>
+  <div class="slot slim slot-header">Reserved partner slot — no live ads or affiliate links yet.</div>
+</header>
+<main id="main">
+
+<section class="tool-page">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html">Home</a> / Tools / SaaS metrics</p>
+    <h1>SaaS metrics calculator bundle</h1>
+    <p class="lede">Work out MRR and ARR, CAC payback, churn, LTV:CAC, A/B test significance and ROAS from the same set of inputs. The formulas are the standard operator versions, not a substitute for your finance model.</p>
+    <div class="tool-layout">
+      <div class="card calc-panel">
+        <form id="saas-form">
+          <div class="tabs">
+            <button type="button" class="tab" data-tab="mrr" aria-selected="true">MRR / ARR</button>
+            <button type="button" class="tab" data-tab="pay">CAC payback</button>
+            <button type="button" class="tab" data-tab="churn">Churn</button>
+            <button type="button" class="tab" data-tab="ltv">LTV:CAC</button>
+            <button type="button" class="tab" data-tab="ab">A/B test</button>
+            <button type="button" class="tab" data-tab="roas">ROAS</button>
+          </div>
+
+          <div data-saas-panel="mrr">
+            <div class="row-2">
+              <label class="field"><span>Starting MRR</span><input name="startMrr" type="number" min="0" step="0.01" value="40000"></label>
+              <label class="field"><span>New MRR</span><input name="newMrr" type="number" min="0" step="0.01" value="6000"></label>
+              <label class="field"><span>Expansion MRR</span><input name="expansionMrr" type="number" min="0" step="0.01" value="2000"></label>
+              <label class="field"><span>Churned MRR</span><input name="churnedMrr" type="number" min="0" step="0.01" value="1500"></label>
+            </div>
+            <label class="field"><span>Contraction MRR</span><input name="contractionMrr" type="number" min="0" step="0.01" value="500"></label>
+            <div id="out-mrr" class="results kpi-row"></div>
+          </div>
+
+          <div data-saas-panel="pay" hidden>
+            <div class="row-2">
+              <label class="field"><span>Customer acquisition cost (CAC)</span><input name="cac" type="number" min="0" step="0.01" value="800"></label>
+              <label class="field"><span>Monthly ARPU</span><input name="payArpu" type="number" min="0" step="0.01" value="120"></label>
+            </div>
+            <label class="field"><span>Gross margin (%)</span><input name="payMargin" type="number" min="0" max="100" step="0.1" value="80"></label>
+            <div id="out-payback" class="results kpi-row"></div>
+          </div>
+
+          <div data-saas-panel="churn" hidden>
+            <div class="row-2">
+              <label class="field"><span>Customers at start</span><input name="startCust" type="number" min="0" step="1" value="200"></label>
+              <label class="field"><span>Customers lost</span><input name="lostCust" type="number" min="0" step="1" value="10"></label>
+              <label class="field"><span>Starting recurring revenue</span><input name="startRev" type="number" min="0" step="0.01" value="40000"></label>
+              <label class="field"><span>Revenue lost to churn</span><input name="lostRev" type="number" min="0" step="0.01" value="1500"></label>
+            </div>
+            <label class="field"><span>Expansion revenue from remaining customers</span><input name="expRev" type="number" min="0" step="0.01" value="2000"></label>
+            <div id="out-churn" class="results kpi-row"></div>
+          </div>
+
+          <div data-saas-panel="ltv" hidden>
+            <div class="row-2">
+              <label class="field"><span>Monthly ARPU</span><input name="ltvArpu" type="number" min="0" step="0.01" value="120"></label>
+              <label class="field"><span>Gross margin (%)</span><input name="ltvMargin" type="number" min="0" max="100" step="0.1" value="80"></label>
+              <label class="field"><span>Monthly churn rate (%)</span><input name="ltvChurn" type="number" min="0" max="100" step="0.01" value="3"></label>
+              <label class="field"><span>CAC</span><input name="ltvCac" type="number" min="0" step="0.01" value="800"></label>
+            </div>
+            <div id="out-ltv" class="results kpi-row"></div>
+          </div>
+
+          <div data-saas-panel="ab" hidden>
+            <div class="row-2">
+              <label class="field"><span>Control visitors (n₁)</span><input name="n1" type="number" min="0" step="1" value="2000"></label>
+              <label class="field"><span>Control conversions</span><input name="c1" type="number" min="0" step="1" value="80"></label>
+              <label class="field"><span>Variant visitors (n₂)</span><input name="n2" type="number" min="0" step="1" value="2000"></label>
+              <label class="field"><span>Variant conversions</span><input name="c2" type="number" min="0" step="1" value="110"></label>
+            </div>
+            <div id="out-ab" class="results kpi-row"></div>
+          </div>
+
+          <div data-saas-panel="roas" hidden>
+            <div class="row-2">
+              <label class="field"><span>Ad spend</span><input name="adSpend" type="number" min="0" step="0.01" value="2500"></label>
+              <label class="field"><span>Attributed revenue</span><input name="adRevenue" type="number" min="0" step="0.01" value="9000"></label>
+            </div>
+            <label class="field"><span>Gross margin on that revenue (%)</span><input name="roasMargin" type="number" min="0" max="100" step="0.1" value="60"></label>
+            <div id="out-roas" class="results kpi-row"></div>
+          </div>
+          <div class="actions" style="margin-top:12px"><button class="btn" type="submit">Recalculate</button></div>
+        </form>
+      </div>
+      <div>
+        <div class="card">
+          <p>Switch the tabs on the left to fill each metric. Results update as you type. All of the formulas used are written out below, with a single worked example that runs through the default numbers.</p>
+        </div>
+        <div class="slot block">Reserved advertisement / affiliate slot — no live ads.</div>
+      </div>
+    </div>
+
+    <article class="prose" style="margin-top:48px">
+      <h2>How this bundle works</h2>
+      <p>Software businesses are judged on a short list of rates: how much recurring revenue you have, how expensive it was to win, how quickly those customers leave, and whether paid acquisition actually pays back. None of those questions is hard once the terms are fixed, but the same words are used in slightly different ways in slide decks, so this page spells out the version it uses.</p>
+      <p>The bundle is six small calculators that share the same idea: you type the raw counts or dollar figures you already have in a spreadsheet, and the page returns the ratio operators actually discuss. Nothing is sent to a server. If a figure looks surprising, scroll to the formula and the worked example and re-run it by hand. That habit matters more than any one dashboard, because a tidy LTV number is only as good as the churn rate you fed it.</p>
+
+      <h2>The formulas</h2>
+      <p><strong>MRR and ARR.</strong> Ending MRR is starting MRR plus new MRR plus expansion, minus churned MRR minus contraction. Net new MRR is ending minus starting. ARR on this page is ending MRR times 12. That is a run-rate, not a forecast of cash you will collect, and it assumes the month you just measured continues unchanged.</p>
+      <p class="formula">ending MRR = start + new + expansion − churned − contraction<br>ARR = ending MRR × 12</p>
+      <p><strong>CAC payback.</strong> Payback in months is customer acquisition cost divided by the monthly gross-profit contribution of that customer: monthly ARPU times gross margin. If contribution is zero, payback is undefined. A shorter payback means less cash is tied up in growth; many subscription teams aim for well under 12 months, but the right target depends on how long customers stay and how lumpy sales costs are.</p>
+      <p class="formula">payback months = CAC ÷ (monthly ARPU × gross margin)</p>
+      <p><strong>Churn.</strong> Logo (customer) churn is customers lost in the period divided by customers at the start. Revenue churn is recurring revenue lost, divided by starting recurring revenue. Net revenue retention is starting revenue minus lost revenue plus expansion, all divided by starting revenue. NRR above 100% means expansion from the remaining customers more than offset the revenue that left.</p>
+      <p class="formula">logo churn = lost customers ÷ starting customers<br>NRR = (start revenue − lost revenue + expansion) ÷ start revenue</p>
+      <p><strong>LTV:CAC.</strong> The simple subscription version of lifetime value is monthly ARPU times gross margin, divided by monthly churn. The ratio is LTV divided by CAC. This model assumes a reasonably steady churn rate and ignores discount rates, which is why it is a planning shorthand rather than a valuation.</p>
+      <p class="formula">LTV = (monthly ARPU × gross margin) ÷ monthly churn<br>LTV:CAC = LTV ÷ CAC</p>
+      <p><strong>A/B test significance.</strong> For two conversion rates, the calculator uses a two-proportion z-test with a pooled standard error. The two-sided p-value comes from the normal distribution. At 95% confidence, a result is marked significant when |z| ≥ 1.96. This is an approximation: it is less reliable with tiny samples or conversion rates very close to 0% or 100%, and it does not replace sequential-testing corrections if you peeked at the results every day.</p>
+      <p class="formula">z = (p₂ − p₁) ÷ √[p(1 − p)(1/n₁ + 1/n₂)]<br>where p is the pooled conversion rate</p>
+      <p><strong>ROAS.</strong> Return on ad spend is attributed revenue divided by ad spend. Break-even ROAS is 1 divided by gross margin: if you keep 60 cents of every revenue dollar, you need at least 1.67× ROAS before the campaign covers its media cost. Estimated profit is revenue times margin, minus spend. Attribution windows and incrementality are your problem, not this formula’s.</p>
+      <p class="formula">ROAS = revenue ÷ ad spend<br>break-even ROAS = 1 ÷ gross margin</p>
+
+      <h2>Worked example</h2>
+      <div class="example">
+        <p>Start the month at $40,000 MRR. You add $6,000 of new MRR and $2,000 of expansion, and you lose $1,500 to churn and $500 to contraction. Ending MRR is $46,000. Net new MRR is $6,000. ARR is $552,000.</p>
+        <p>A typical customer pays $120 a month at an 80% gross margin, and you spend $800 to acquire them. Monthly contribution is $96, so CAC payback is 800 ÷ 96 = <strong>8.3 months</strong>. If 3% of customers churn each month, LTV is (120 × 0.80) ÷ 0.03 = $3,200, and LTV:CAC is <strong>4.0×</strong>.</p>
+        <p>On the same book, 10 of 200 customers leave (5% logo churn). You lose $1,500 of the $40,000 starting revenue (3.75% revenue churn) but pick up $2,000 of expansion, so NRR is (40,000 − 1,500 + 2,000) ÷ 40,000 = <strong>101.25%</strong>.</p>
+        <p>You test a pricing page: 80 conversions from 2,000 visitors versus 110 from 2,000. The rates are 4.0% and 5.5%, a 37.5% relative lift. The pooled rate is 4.75%, z is about 2.23, and the two-sided p-value is about 0.026, so the test is significant at 95%. Separately, $2,500 of ads that produce $9,000 of revenue at a 60% margin have 3.60× ROAS, a 1.67× break-even, and about $2,900 of estimated profit.</p>
+      </div>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details open>
+          <summary>What is the difference between MRR and ARR?</summary>
+          <p>MRR is recurring revenue expressed per month. ARR is that same run-rate expressed per year, usually ending MRR times 12. Neither figure is a cash forecast, and usage, one-off professional services or unpaid invoices should be kept out of the MRR waterfall unless you have a deliberate rule for them.</p>
+        </details>
+        <details>
+          <summary>What LTV:CAC ratio is considered healthy?</summary>
+          <p>A common rule of thumb is 3:1 or better, meaning lifetime gross profit is at least three times what you paid to acquire the customer. It is a heuristic, not a law. A high ratio with a 24-month payback can still starve a young company of cash, which is why this page shows payback and the ratio side by side.</p>
+        </details>
+        <details>
+          <summary>When is an A/B test statistically significant?</summary>
+          <p>This calculator uses a two-proportion z-test. At a 95% confidence level, a result is flagged as significant when the absolute z-score is at least 1.96, which is the same as a two-sided p-value of 0.05 or below. Always look at the sample size and the practical size of the lift, not only the star next to the p-value.</p>
+        </details>
+        <details>
+          <summary>Is this financial advice?</summary>
+          <p>No. These are standard planning formulas. Your accountant, tax position, and the way you recognise revenue can all produce different official numbers. Treat the outputs as a check on your own spreadsheet.</p>
+        </details>
+      </div>
+      <p>Estimates only — not financial advice and not a substitute for a cohort model or a finance system of record.</p>
+    </article>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h3>MetricStack by AHM Global</h3>
+      <p>Free, no-signup calculators for founders, sellers and freelancers. Calculations run in your browser.</p>
+      <p>Contact: <a href="mailto:ahmglobal7@gmail.com">ahmglobal7@gmail.com</a></p>
+    </div>
+    <div>
+      <h3>Tools</h3>
+      <ul>
+        <li><a href="../tools/llm-api-cost.html">LLM API cost calculator</a></li>
+        <li><a href="../tools/saas-metrics.html">SaaS metrics bundle</a></li>
+        <li><a href="../tools/etsy-fees.html">Etsy fee &amp; profit calculator</a></li>
+        <li><a href="../tools/freelancer-takehome.html">Freelancer take-home calculator</a></li>
+        <li><a href="../tools/amazon-ebay-fees.html">Amazon FBA / eBay fees</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Site</h3>
+      <ul>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../privacy.html">Privacy</a></li>
+        <li><a href="../index.html#faq">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap disclaimer">
+    Estimates only, not financial, tax or legal advice. Fee schedules and list prices change, often without notice. Always confirm the live rate in your provider, marketplace or tax account before you list, bid or spend. MetricStack and AHM Global are not affiliated with OpenAI, Anthropic, Google, Mistral, Meta, Groq, DeepSeek, Etsy, Upwork, Fiverr, Amazon or eBay. © <span data-year>2026</span> AHM Global.
+  </div>
+</footer>
+<script src="../js/common.js"></script>
+<script src="../js/calculators.js"></script>
+<script src="../js/ui-saas.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Host is a planned GitHub Pages address. Update both this file and robots.txt after go-live. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://contactmetricstack-glitch.github.io/metricstack/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://contactmetricstack-glitch.github.io/metricstack/about.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://contactmetricstack-glitch.github.io/metricstack/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://contactmetricstack-glitch.github.io/metricstack/tools/llm-api-cost.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://contactmetricstack-glitch.github.io/metricstack/tools/saas-metrics.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://contactmetricstack-glitch.github.io/metricstack/tools/etsy-fees.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://contactmetricstack-glitch.github.io/metricstack/tools/freelancer-takehome.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://contactmetricstack-glitch.github.io/metricstack/tools/amazon-ebay-fees.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+</urlset>
