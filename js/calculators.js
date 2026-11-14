@@ -472,6 +472,118 @@
     };
   }
 
+  /* ============================================================
+     6. Solar savings estimator (demo assumptions, not a quote)
+     Defaults are labelled example figures for a Quebec-like
+     rooftop: about CAD 0.08/kWh, about 1,150 kWh/kW/year, and
+     an installed cost of CAD 2.80/W. They are not Power Q's
+     figures and are not an official tariff.
+     ============================================================ */
+  var SOLAR_DIRECTION = {
+    south: 1,
+    southeast: 0.96,
+    southwest: 0.96,
+    east: 0.85,
+    west: 0.85,
+    northeast: 0.70,
+    northwest: 0.70,
+    north: 0.55
+  };
+  var SOLAR_SHADING = {
+    none: 1,
+    light: 0.90,
+    moderate: 0.75,
+    heavy: 0.55
+  };
+  var SOLAR_PROVINCES = {
+    QC: { id: "QC", name: "Quebec", nameFr: "Québec", rate: 0.08, yield: 1150, co2: 0.0017 },
+    ON: { id: "ON", name: "Ontario", nameFr: "Ontario", rate: 0.13, yield: 1200, co2: 0.030 },
+    BC: { id: "BC", name: "British Columbia", nameFr: "Colombie-Britannique", rate: 0.11, yield: 1100, co2: 0.012 },
+    AB: { id: "AB", name: "Alberta", nameFr: "Alberta", rate: 0.16, yield: 1250, co2: 0.47 },
+    NB: { id: "NB", name: "New Brunswick", nameFr: "Nouveau-Brunswick", rate: 0.13, yield: 1150, co2: 0.28 },
+    NS: { id: "NS", name: "Nova Scotia", nameFr: "Nouvelle-Écosse", rate: 0.18, yield: 1150, co2: 0.60 },
+    OTHER: { id: "OTHER", name: "Other / custom", nameFr: "Autre / personnalisé", rate: 0.12, yield: 1150, co2: 0.05 }
+  };
+  var SOLAR_DEFAULTS = {
+    electricityRate: 0.08,
+    specificYield: 1150,
+    costPerWatt: 2.80,
+    m2PerKw: 5.5,
+    escalation: 0.02,
+    degradation: 0.005,
+    co2KgPerKwh: 0.0017,
+    years: 25
+  };
+
+  function solarSavings(opts) {
+    opts = opts || {};
+    var monthlyBill = Math.max(0, toNum(opts.monthlyBill));
+    var rate = Math.max(0, toNum(opts.electricityRate));
+    var specificYield = Math.max(0, toNum(opts.specificYield));
+    var direction = clamp(toNum(opts.directionFactor == null ? 1 : opts.directionFactor), 0, 1.2);
+    var shading = clamp(toNum(opts.shadingFactor == null ? 1 : opts.shadingFactor), 0, 1);
+    var costPerWatt = Math.max(0, toNum(opts.costPerWatt));
+    var m2PerKw = Math.max(0, toNum(opts.m2PerKw == null ? SOLAR_DEFAULTS.m2PerKw : opts.m2PerKw));
+    var roofArea = Math.max(0, toNum(opts.roofArea));
+    var enteredKw = Math.max(0, toNum(opts.systemSizeKw));
+    var years = Math.max(1, Math.round(toNum(opts.years == null ? SOLAR_DEFAULTS.years : opts.years)));
+    var escalation = toNum(opts.escalation == null ? SOLAR_DEFAULTS.escalation : opts.escalation);
+    var degradation = toNum(opts.degradation == null ? SOLAR_DEFAULTS.degradation : opts.degradation);
+    var co2KgPerKwh = Math.max(0, toNum(opts.co2KgPerKwh == null ? SOLAR_DEFAULTS.co2KgPerKwh : opts.co2KgPerKwh));
+
+    var effectiveYield = specificYield * direction * shading;
+    var annualUsageKwh = rate > 0 ? (monthlyBill * 12) / rate : 0;
+    var roofKw = (roofArea > 0 && m2PerKw > 0) ? roofArea / m2PerKw : 0;
+    var billKw = (annualUsageKwh > 0 && effectiveYield > 0) ? annualUsageKwh / effectiveYield : 0;
+
+    var suggestedKw = 0;
+    var sizeSource = "none";
+    if (enteredKw > 0) {
+      suggestedKw = enteredKw;
+      sizeSource = "entered";
+    } else if (roofKw > 0 && billKw > 0) {
+      suggestedKw = Math.min(roofKw, billKw);
+      sizeSource = suggestedKw === roofKw ? "roof-capped" : "bill";
+    } else if (roofKw > 0) {
+      suggestedKw = roofKw;
+      sizeSource = "roof";
+    } else if (billKw > 0) {
+      suggestedKw = billKw;
+      sizeSource = "bill";
+    }
+
+    var annualProductionKwh = suggestedKw * effectiveYield;
+    var year1Savings = annualProductionKwh * rate;
+    var installedCost = suggestedKw * 1000 * costPerWatt;
+    var lifetimeSavings = 0;
+    var lifetimeProductionKwh = 0;
+    var t;
+    for (t = 0; t < years; t++) {
+      var prod = annualProductionKwh * Math.pow(1 - degradation, t);
+      lifetimeProductionKwh += prod;
+      lifetimeSavings += prod * rate * Math.pow(1 + escalation, t);
+    }
+    var paybackYears = year1Savings > 0 ? installedCost / year1Savings : Infinity;
+
+    return {
+      ok: suggestedKw > 0 && effectiveYield > 0,
+      annualUsageKwh: annualUsageKwh,
+      suggestedKw: suggestedKw,
+      sizeSource: sizeSource,
+      roofKw: roofKw,
+      billKw: billKw,
+      effectiveYield: effectiveYield,
+      annualProductionKwh: annualProductionKwh,
+      year1Savings: year1Savings,
+      lifetimeSavings: lifetimeSavings,
+      years: years,
+      installedCost: installedCost,
+      paybackYears: paybackYears,
+      annualCo2Kg: annualProductionKwh * co2KgPerKwh,
+      lifetimeCo2Kg: lifetimeProductionKwh * co2KgPerKwh
+    };
+  }
+
   return {
     PRICES_CHECKED: PRICES_CHECKED,
     money: money,
@@ -495,6 +607,11 @@
     AMZ_REFERRAL: AMZ_REFERRAL,
     fbaFulfillment: fbaFulfillment,
     amazonProfit: amazonProfit,
-    ebayProfit: ebayProfit
+    ebayProfit: ebayProfit,
+    SOLAR_DIRECTION: SOLAR_DIRECTION,
+    SOLAR_SHADING: SOLAR_SHADING,
+    SOLAR_PROVINCES: SOLAR_PROVINCES,
+    SOLAR_DEFAULTS: SOLAR_DEFAULTS,
+    solarSavings: solarSavings
   };
 });

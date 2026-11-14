@@ -180,6 +180,103 @@ var ebayHigh = M.ebayProfit({
 });
 eq("eBay above $7500 uses 2.35%", ebayHigh.fvf, 7500 * 0.136 + 500 * 0.0235 + 0.40, 1e-9);
 
+console.log("\nSolar savings");
+var billSized = M.solarSavings({
+  monthlyBill: 150,
+  electricityRate: 0.08,
+  specificYield: 1150,
+  directionFactor: 1,
+  shadingFactor: 1,
+  costPerWatt: 2.80,
+  m2PerKw: 5.5,
+  escalation: 0,
+  degradation: 0,
+  co2KgPerKwh: 0.0017,
+  years: 25
+});
+eq("bill-based annual use", billSized.annualUsageKwh, 22500);
+eq("bill-based kW", billSized.suggestedKw, 22500 / 1150, 1e-9);
+eq("bill-based year-1 production", billSized.annualProductionKwh, 22500, 1e-9);
+eq("bill-based year-1 savings", billSized.year1Savings, 1800, 1e-9);
+eq("bill-based installed cost", billSized.installedCost, (22500 / 1150) * 1000 * 2.80, 1e-9);
+eq("bill-based simple payback", billSized.paybackYears, ((22500 / 1150) * 1000 * 2.80) / 1800, 1e-9);
+eq("bill-based 25y savings, no esc/deg", billSized.lifetimeSavings, 1800 * 25, 1e-9);
+eq("bill-based year-1 CO2 kg", billSized.annualCo2Kg, 22500 * 0.0017, 1e-9);
+ok("bill-based size source", billSized.sizeSource === "bill");
+
+var entered = M.solarSavings({
+  monthlyBill: 150,
+  electricityRate: 0.08,
+  specificYield: 1150,
+  directionFactor: 1,
+  shadingFactor: 1,
+  costPerWatt: 2.80,
+  systemSizeKw: 6,
+  escalation: 0,
+  degradation: 0,
+  co2KgPerKwh: 0.0017,
+  years: 25
+});
+eq("entered 6 kW production", entered.annualProductionKwh, 6900, 1e-9);
+eq("entered 6 kW year-1 savings", entered.year1Savings, 552, 1e-9);
+eq("entered 6 kW cost", entered.installedCost, 16800, 1e-9);
+eq("entered 6 kW payback", entered.paybackYears, 16800 / 552, 1e-9);
+ok("entered size source", entered.sizeSource === "entered");
+
+var shaded = M.solarSavings({
+  systemSizeKw: 6,
+  electricityRate: 0.08,
+  specificYield: 1150,
+  directionFactor: M.SOLAR_DIRECTION.west,
+  shadingFactor: M.SOLAR_SHADING.moderate,
+  costPerWatt: 2.80,
+  escalation: 0,
+  degradation: 0,
+  years: 25
+});
+eq("west + moderate effective yield", shaded.effectiveYield, 1150 * 0.85 * 0.75, 1e-9);
+eq("west + moderate production", shaded.annualProductionKwh, 6 * 1150 * 0.85 * 0.75, 1e-9);
+
+var roof = M.solarSavings({
+  monthlyBill: 150,
+  electricityRate: 0.08,
+  specificYield: 1150,
+  directionFactor: 1,
+  shadingFactor: 1,
+  costPerWatt: 2.80,
+  m2PerKw: 5.5,
+  roofArea: 40,
+  escalation: 0,
+  degradation: 0,
+  years: 25
+});
+eq("roof-capped kW", roof.suggestedKw, 40 / 5.5, 1e-9);
+ok("roof-capped source", roof.sizeSource === "roof-capped");
+
+var lifetime = M.solarSavings({
+  systemSizeKw: 6,
+  electricityRate: 0.08,
+  specificYield: 1150,
+  directionFactor: 1,
+  shadingFactor: 1,
+  costPerWatt: 2.80,
+  escalation: 0.02,
+  degradation: 0.005,
+  co2KgPerKwh: 0.0017,
+  years: 25
+});
+var expectedLife = 0;
+var expectedProd = 0;
+for (var yr = 0; yr < 25; yr++) {
+  var prodY = 6900 * Math.pow(0.995, yr);
+  expectedProd += prodY;
+  expectedLife += prodY * 0.08 * Math.pow(1.02, yr);
+}
+eq("25y savings with 2% esc and 0.5% deg", lifetime.lifetimeSavings, expectedLife, 1e-6);
+eq("25y CO2 with degradation", lifetime.lifetimeCo2Kg, expectedProd * 0.0017, 1e-6);
+eq("Quebec default rate", M.SOLAR_PROVINCES.QC.rate, 0.08);
+eq("Quebec default yield", M.SOLAR_PROVINCES.QC.yield, 1150);
+
 // Formatting helpers should not throw
 ok("money formats negative", M.money(-1.2) === "-$1.20");
 ok("pct formats", M.pct(0.104375).indexOf("10.4") === 0);
@@ -190,7 +287,8 @@ var root = path.join(__dirname, "..");
 var files = [
   "index.html", "about.html", "privacy.html", "robots.txt", "sitemap.xml", "favicon.svg",
   "tools/llm-api-cost.html", "tools/saas-metrics.html", "tools/etsy-fees.html",
-  "tools/freelancer-takehome.html", "tools/amazon-ebay-fees.html"
+  "tools/freelancer-takehome.html", "tools/amazon-ebay-fees.html",
+  "solar-savings-demo/index.html", "js/ui-solar.js"
 ];
 files.forEach(function (f) {
   ok("exists " + f, fs.existsSync(path.join(root, f)));
@@ -212,8 +310,18 @@ fs.readdirSync(path.join(root, "tools")).forEach(function (f) {
 allHtml += fs.readFileSync(path.join(root, "about.html"), "utf8");
 allHtml += fs.readFileSync(path.join(root, "privacy.html"), "utf8");
 allHtml += html;
+var solarPage = fs.readFileSync(path.join(root, "solar-savings-demo/index.html"), "utf8");
+allHtml += solarPage;
 ok("no personal name anywhere in HTML", !/attaullah|marth|hanif/i.test(allHtml));
 ok("disclaimer in footer", /not financial/i.test(allHtml));
+ok("solar demo is noindex", /content\s*=\s*"noindex/i.test(solarPage));
+ok("solar demo credit line", solarPage.indexOf("Demo prepared for") !== -1 && solarPage.indexOf("Power Q") !== -1 && solarPage.indexOf("AHM Global") !== -1);
+ok("solar demo not claimed as Power Q figures", /not Power Q/i.test(solarPage));
+ok("solar demo is not in the homepage nav or tool list", html.indexOf("solar-savings-demo") === -1);
+var sitemap = fs.readFileSync(path.join(root, "sitemap.xml"), "utf8");
+ok("solar demo is not in sitemap.xml", sitemap.indexOf("solar-savings-demo") === -1);
+ok("lead form does not post to a server", /id="lead-form"/.test(solarPage) && !/id="lead-form"[^>]*method="post"/i.test(solarPage));
+ok("bilingual toggle present", /data-lang-btn="fr"/.test(solarPage) && /data-lang-btn="en"/.test(solarPage));
 
 console.log("\n" + passed + " passed, " + failed + " failed");
 process.exit(failed ? 1 : 0);
